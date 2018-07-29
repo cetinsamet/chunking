@@ -9,7 +9,7 @@ from sklearn.externals import joblib
 
 
 class Chunker():
-    """Named Entity Recognition class for the English language"""
+    """Chunking class for the English language"""
 
     def __init__(self):
         self.sentences      = list()
@@ -78,7 +78,7 @@ class Chunker():
         return
 
     def train(self, train_datapath):
-        """Train named entity recognition model"""
+        """Train chunking model"""
         self.read_data(train_datapath)
         self.form_data()
         print("-> Training phase is started.")
@@ -92,7 +92,7 @@ class Chunker():
         return
 
     def evaluate(self, datapath):
-        """Evaluate the accuracy of trained named entity recognizer on given development/test corpus data"""
+        """Evaluate the accuracy of trained chunker on given development/test corpus data"""
         self.read_data(datapath)
         self.form_data()
         preds       = self.model.predict(self.vectorizer.transform(self.features))
@@ -102,7 +102,7 @@ class Chunker():
         return acc_score
 
     def test(self, datapath):
-        """Measure various score values of named entity recognizer on given development/test corpus data"""
+        """Measure various score values of chunker on given development/test corpus data"""
         self.read_data(datapath)
         self.form_data()
         preds       = self.model.predict(self.vectorizer.transform(self.features))
@@ -129,17 +129,17 @@ class Chunker():
         return tagged_sents
 
     def save(self, save_path):
-        """Save named entity recognizer"""
+        """Save chunker"""
         with gzip.GzipFile(save_path, 'wb') as outfile:
             joblib.dump((self.vectorizer, self.model), outfile, compress=('gzip', 9))
-        print("-> Named entity recognizer is saved to '%s'" % save_path)
+        print("-> Chunker is saved to '%s'" % save_path)
         return
 
     def load(self, load_path):
-        """Load named entity recognizer"""
+        """Load chunker"""
         with gzip.GzipFile(load_path, 'rb') as infile:
             self.vectorizer, self.model = joblib.load(infile)
-        print("-> Named entity recognizer is loaded from '%s'" % load_path)
+        print("-> Chunker is loaded from '%s'" % load_path)
         return
 
 def main():
@@ -148,16 +148,16 @@ def main():
     TRAIN_DATAPATH  = '../data/train.txt'
     DEV_DATAPATH    = '../mini_data/test.txt'
 
-    # INITIALIZE NAMED ENTITY RECOGNIZER
+    # INITIALIZE CHUNKER
     chunker  = Chunker()
 
-    # TRAIN NAMED ENTITY RECOGNIZER WITH TRAINING CORPUS
+    # TRAIN CHUNKER WITH TRAINING CORPUS
     chunker.train(TRAIN_DATAPATH)
 
-    # EVALUATE (GET ACCURACY OF) NAMED ENTITY RECOGNIZER ON DEVELOPMENT CORPUS
+    # EVALUATE (GET ACCURACY OF) CHUNKER ON DEVELOPMENT CORPUS
     chunker.evaluate(DEV_DATAPATH)
 
-    # MEASURE SCORES OF NAMED ENTITY RECOGNIZER ON DEVELOPMENT CORPUS AND DISPLAY SCORES
+    # MEASURE SCORES OF CHUNKER ON DEVELOPMENT CORPUS AND DISPLAY SCORES
     precision, recall, f1, accuracy, confusion = chunker.test(DEV_DATAPATH)
     print('test pre:', precision)
     print('test rec:', recall)
@@ -165,11 +165,11 @@ def main():
     print('test acc:', accuracy)
     print('test con:', confusion)
 
-    # SAVE NAMED ENTITY RECOGNIZER
+    # SAVE CHUNKER
     SAVE_PATH   = '../model/chunk_model.gz'
     chunker.save(SAVE_PATH)
 
-    # LOAD NAMED ENTITY RECOGNIZER
+    # LOAD CHUNKER
     LOAD_PATH   = '../model/chunk_model.gz'
     chunker      = Chunker()
     chunker.load(LOAD_PATH)
