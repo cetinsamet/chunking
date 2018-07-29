@@ -20,5 +20,5 @@ $**python3** chunk.py  "This is the strangest life I've ever known."
   
 *P.S. Above example is tested with a model trained on corpus in data/ directory(with almost 9,000 English sentences).*   
   
-> This is the strangest life I've ever known.
+> This is the strangest life I've ever known.  
 > Jim MORRISON
